@@ -1,0 +1,3 @@
+ENVIRONMENT=development
+SERVER_CERT=../certs/cert.pem
+SERVER_KEY=../certs/key.pem

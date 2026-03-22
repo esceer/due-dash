@@ -1,0 +1,13 @@
+# /v1/health
+get:
+  summary: 'Retrieve health info'
+  tags:
+    - 'Health'
+  operationId: 'Health'
+  responses:
+    '200':
+      description: 'service is healthy'
+    '503':
+      description: 'service is unavailable'
+      schema:
+        $ref: '../definitions/errors.yaml#/APIError'

@@ -1,0 +1,39 @@
+# /v1/tasks/{id}
+get:
+  summary: 'Retrieve task by id'
+  tags:
+    - 'Tasks'
+  parameters:
+    - name: id
+      type: integer
+      in: path
+      required: true
+  responses:
+    '200':
+      description: 'ok'
+      schema:
+        $ref: '../definitions/tasks.yaml#/Task'
+    '500':
+      description: 'internal error'
+      schema:
+        $ref: '../definitions/errors.yaml#/APIError'
+delete:
+  summary: 'Delete a task'
+  tags:
+    - 'Tasks'
+  parameters:
+    - name: id
+      type: integer
+      in: path
+      required: true
+  responses:
+    '204':
+      description: 'ok'
+    '404':
+      description: 'not found'
+      schema:
+        $ref: '../definitions/errors.yaml#/APIError'
+    '500':
+      description: 'internal error'
+      schema:
+        $ref: '../definitions/errors.yaml#/APIError'

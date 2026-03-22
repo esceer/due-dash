@@ -1,0 +1,76 @@
+# =============================
+# Build Backend (Go) for ARM64 with SQLite
+# =============================
+FROM golang:1.22-bullseye AS backend-build
+WORKDIR /app/backend
+COPY backend/ .
+
+# Install required dependencies for SQLite
+RUN apt-get update && apt-get install -y \
+    gcc \
+    g++ \
+    libc-dev \
+    sqlite3 \
+    libsqlite3-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set environment variables for ARM64
+ENV GOOS=linux
+ENV GOARCH=arm64
+ENV CGO_ENABLED=1
+ENV CC=aarch64-linux-gnu-gcc
+ENV CXX=aarch64-linux-gnu-g++
+
+# Build the Go backend for ARM64
+RUN go build -o backend_app cmd/main.go
+
+
+# =============================
+# Build Frontend (Angular)
+# =============================
+FROM node:18 AS frontend-build
+WORKDIR /app/frontend
+COPY frontend/ .
+RUN npm install && npm run build --prod
+
+
+# =============================
+# Final Image with Nginx (Debian)
+# =============================
+FROM nginx:bullseye
+WORKDIR /app
+
+# Install SQLite and required libraries
+RUN apt-get update && apt-get install -y sqlite3 libsqlite3-dev && rm -rf /var/lib/apt/lists/*
+
+# Create a persistent database directory
+RUN mkdir -p /app/database
+
+# Copy SSL certificates
+RUN mkdir -p /app/certs
+COPY certs/*.pem /app/certs/
+COPY certs/*.pem /etc/nginx/certs/
+
+# Copy backend binary
+COPY --from=backend-build /app/backend/backend_app /app/backend_app
+RUN chmod +x /app/backend_app
+
+# Copy frontend build output to serve with Nginx
+COPY --from=frontend-build /app/frontend/dist/frontend/browser /usr/share/nginx/html/
+
+# Copy custom Nginx config
+COPY nginx.conf /etc/nginx/nginx.conf
+
+# Copy entrypoint script
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+# Set up the volume for persistence (this is a hint, actual volume is declared at runtime)
+VOLUME ["/app/database"]
+
+# Expose backend and frontend
+EXPOSE 8080
+EXPOSE 80
+
+# Run entrypoint script
+ENTRYPOINT ["/entrypoint.sh"]

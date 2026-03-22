@@ -1,0 +1,51 @@
+swagger: '2.0'
+info:
+  title: Due Dash API
+  version: 0.0.1
+# host: 127.0.0.1:8080
+basePath: /api
+
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+
+paths:
+  /v1/health:
+    $ref: "paths/health.yaml"
+  
+  /v1/templates:
+    $ref: "paths/templates.yaml"
+  
+  /v1/templates/{id}:
+    $ref: "paths/templates-id.yaml"
+  
+  /v1/tasks:
+    $ref: "paths/tasks.yaml"
+  
+  /v1/tasks/generate:
+    $ref: "paths/tasks-generate.yaml"
+  
+  /v1/tasks/{id}:
+    $ref: "paths/tasks-id.yaml"
+  
+  /v1/tasks/{id}/status:
+    $ref: "paths/tasks-id-status.yaml"
+  
+definitions:
+  APIError:
+    $ref: "definitions/errors.yaml#/APIError"
+  
+  Template:
+    $ref: "definitions/templates.yaml#/Template"
+  
+  NewTemplate:
+    $ref: "definitions/templates.yaml#/NewTemplate"
+  
+  Task:
+    $ref: "definitions/tasks.yaml#/Task"
+  
+  NewTask:
+    $ref: "definitions/tasks.yaml#/NewTask"

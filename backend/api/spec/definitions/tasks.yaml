@@ -1,0 +1,43 @@
+Task:
+  type: 'object'
+  properties:
+    id:
+      type: integer
+    template:
+      type: object
+      $ref: "templates.yaml#/Template"
+    name:
+      type: string
+    dueDate:
+      type: string  
+      format: date
+    completedAt:
+      type: string  
+      format: date-time
+    status:
+      $ref: "#/Status"
+    createdAt:
+      type: string  
+      format: date-time
+
+NewTask:
+  type: 'object'
+  required:
+    - name
+    - dueDate
+  properties:
+    name:
+      type: string
+    dueDate:
+      type: string  
+      format: date
+
+Status:
+  type: 'object'
+  required:
+    - status
+  properties:
+    status:
+      type: string
+      enum: ['PENDING', 'COMPLETED', 'OVERDUE', 'SKIPPED']
+      description: 'The new status of the task'

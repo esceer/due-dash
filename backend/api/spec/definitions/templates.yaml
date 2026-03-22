@@ -1,0 +1,27 @@
+Template:
+  type: 'object'
+  properties:
+    id:
+      type: integer
+    name:
+      type: string
+    frequency:
+      type: string
+    dayOfMonth:
+      type: integer
+    enabled:
+      type: boolean
+
+NewTemplate:
+  type: 'object'
+  required:
+    - name
+    - frequency
+    - dayOfMonth
+  properties:
+    name:
+      type: string
+    frequency:
+      type: string
+    dayOfMonth:
+      type: integer

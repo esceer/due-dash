@@ -1,0 +1,17 @@
+version: '3'
+services:
+  myapp:
+    image: myapp
+    container_name: myapp
+    restart: always
+    ports:
+      - "8080"  # Internal backend communication
+      - "80:80" # Expose Nginx to Synology
+    environment:
+      - TZ=Europe/Budapest
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    driver: bridge

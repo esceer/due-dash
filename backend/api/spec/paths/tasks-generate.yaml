@@ -1,0 +1,19 @@
+# /v1/tasks/generate
+post:
+  summary: 'Manually trigger task generation from active templates'
+  description: 'Checks all active templates and creates pending tasks if they are due for the current period.'
+  tags:
+    - 'Tasks'
+  responses:
+    '200':
+      description: 'Success. Returns the number of tasks created.'
+      schema:
+        type: object
+        properties:
+          createdCount:
+            type: integer
+            example: 5
+    '500':
+      description: 'Internal error during generation'
+      schema:
+        $ref: '../definitions/errors.yaml#/APIError'

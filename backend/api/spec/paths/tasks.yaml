@@ -1,0 +1,34 @@
+# /v1/tasks
+get:
+  summary: 'Fetch all tasks'
+  tags:
+    - 'Tasks'
+  responses:
+    '200':
+      description: 'ok'
+      schema:
+        type: array
+        items: 
+          $ref: '../definitions/tasks.yaml#/Task'
+    '500':
+      description: 'internal error'
+      schema:
+        $ref: '../definitions/errors.yaml#/APIError'
+post:
+  summary: 'Create a new task'
+  tags:
+    - 'Tasks'
+  parameters:
+    - in: body
+      name: body
+      required: true
+      description: 'The task to create'
+      schema:
+        $ref: '../definitions/tasks.yaml#/NewTask'
+  responses:
+    '201':
+      description: 'created'
+    '500':
+      description: 'internal error'
+      schema:
+        $ref: '../definitions/errors.yaml#/APIError'

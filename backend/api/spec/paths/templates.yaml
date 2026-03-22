@@ -1,0 +1,34 @@
+# /v1/templates
+get:
+  summary: 'Fetch all templates'
+  tags:
+    - 'Templates'
+  responses:
+    '200':
+      description: 'ok'
+      schema:
+        type: array
+        items: 
+          $ref: '../definitions/templates.yaml#/Template'
+    '500':
+      description: 'internal error'
+      schema:
+        $ref: '../definitions/errors.yaml#/APIError'
+post:
+  summary: 'Create a new template'
+  tags:
+    - 'Templates'
+  parameters:
+    - in: body
+      name: body
+      required: true
+      description: 'The template to create'
+      schema:
+        $ref: '../definitions/templates.yaml#/NewTemplate'
+  responses:
+    '201':
+      description: 'created'
+    '500':
+      description: 'internal error'
+      schema:
+        $ref: '../definitions/errors.yaml#/APIError'

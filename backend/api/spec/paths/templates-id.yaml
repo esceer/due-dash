@@ -1,0 +1,61 @@
+# /v1/templates/{id}
+get:
+  summary: 'Retrieve template by id'
+  tags:
+    - 'Templates'
+  parameters:
+    - name: id
+      type: integer
+      in: path
+      required: true
+  responses:
+    '200':
+      description: 'ok'
+      schema:
+        $ref: '../definitions/templates.yaml#/Template'
+    '500':
+      description: 'internal error'
+      schema:
+        $ref: '../definitions/errors.yaml#/APIError'
+put:
+  summary: 'Update template by id'
+  tags:
+    - 'Templates'
+  parameters:
+    - name: id
+      type: integer
+      in: path
+      required: true
+    - in: body
+      name: body
+      required: true
+      description: 'The template to update'
+      schema:
+        $ref: '../definitions/templates.yaml#/Template'
+  responses:
+    '204':
+      description: 'ok'
+    '500':
+      description: 'internal error'
+      schema:
+        $ref: '../definitions/errors.yaml#/APIError'
+delete:
+  summary: 'Delete a template'
+  tags:
+    - 'Templates'
+  parameters:
+    - name: id
+      type: integer
+      in: path
+      required: true
+  responses:
+    '204':
+      description: 'ok'
+    '404':
+      description: 'not found'
+      schema:
+        $ref: '../definitions/errors.yaml#/APIError'
+    '500':
+      description: 'internal error'
+      schema:
+        $ref: '../definitions/errors.yaml#/APIError'
