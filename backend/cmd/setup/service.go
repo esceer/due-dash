@@ -8,14 +8,14 @@ import (
 )
 
 type serviceBundle struct {
-	taskService     service.TaskService
-	templateService service.TemplateService
+	TaskService     service.TaskService
+	TemplateService service.TemplateService
 }
 
 func Services(cfg *config.Config, db *gorm.DB) *serviceBundle {
 	return &serviceBundle{
-		taskService:     TaskService(db),
-		templateService: TemplateService(db),
+		TaskService:     TaskService(db),
+		TemplateService: TemplateService(db),
 	}
 }
 

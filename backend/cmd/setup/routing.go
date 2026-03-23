@@ -49,7 +49,7 @@ func publicApi(cfg *config.Config, g *echo.Group, services *serviceBundle) {
 	health := g.Group("/health")
 	health.GET("", healthApi.Health)
 
-	templateApi := api.NewTemplateApiHandler(services.templateService)
+	templateApi := api.NewTemplateApiHandler(services.TemplateService)
 	templates := g.Group("/templates")
 	templates.GET("", templateApi.GetAll)
 	templates.POST("", templateApi.Create)
@@ -57,7 +57,7 @@ func publicApi(cfg *config.Config, g *echo.Group, services *serviceBundle) {
 	templates.PUT("/:id", templateApi.Update)
 	templates.DELETE("/:id", templateApi.Delete)
 
-	taskApi := api.NewTaskApiHandler(services.taskService)
+	taskApi := api.NewTaskApiHandler(services.TaskService)
 	tasks := g.Group("/tasks")
 	tasks.GET("", taskApi.GetAll)
 	tasks.POST("", taskApi.Create)

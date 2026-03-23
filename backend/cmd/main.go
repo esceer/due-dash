@@ -25,6 +25,9 @@ func main() {
 	// Services
 	services := setup.Services(cfg, database)
 
+	// Schedulers
+	setup.Schedulers(services.TaskService)
+
 	// Http server
 	server := setup.WebRouting(cfg, services)
 	log.Info().Msgf("Listening on %v...", cfg.ServerAddress)
