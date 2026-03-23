@@ -32,7 +32,7 @@ func (r *taskRepository) Create(b *model.Task) error {
 
 func (r *taskRepository) GetAll() ([]*model.Task, error) {
 	var tasks []*model.Task
-	result := r.db.Find(&tasks)
+	result := r.db.Preload(clause.Associations).Find(&tasks)
 	return tasks, result.Error
 }
 
@@ -49,7 +49,7 @@ func (r *taskRepository) Update(b *model.Task) error {
 	if _, err := r.GetById(b.Id); err != nil {
 		return err
 	}
-	return r.db.Updates(b).Error
+	return r.db.Save(b).Error
 }
 
 func (r *taskRepository) Delete(id int) error {

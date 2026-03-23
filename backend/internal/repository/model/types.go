@@ -14,7 +14,8 @@ type Template struct {
 
 type Task struct {
 	Id          int
-	Template    *Template
+	TemplateId  *int      `json:"templateId" gorm:"column:template_id"`
+	Template    *Template `json:"template" gorm:"foreignKey:TemplateId"`
 	Name        string
 	DueDate     time.Time
 	CompletedAt *time.Time
