@@ -1,6 +1,8 @@
 package repository
 
 import (
+	"time"
+
 	"github.com/esceer/due-dash/backend/internal"
 	"github.com/esceer/due-dash/backend/internal/repository/model"
 	"gorm.io/gorm"
@@ -13,6 +15,7 @@ type TaskRepository interface {
 	GetById(int) (*model.Task, error)
 	Update(*model.Task) error
 	Delete(int) error
+	ExistsByTemplateAndDueDate(int, time.Time) (bool, error)
 }
 
 type taskRepository struct {
@@ -51,4 +54,13 @@ func (r *taskRepository) Update(b *model.Task) error {
 
 func (r *taskRepository) Delete(id int) error {
 	return r.db.Delete(&model.Task{}, id).Error
+}
+
+func (r *taskRepository) ExistsByTemplateAndDueDate(templateId int, dueDate time.Time) (bool, error) {
+	var count int64
+	err := r.db.Model(&model.Task{}).
+		Where("template_id = ? AND due_date = ?", templateId, dueDate).
+		Count(&count).Error
+
+	return count > 0, err
 }

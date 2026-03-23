@@ -20,8 +20,9 @@ func Services(cfg *config.Config, db *gorm.DB) *serviceBundle {
 }
 
 func TaskService(db *gorm.DB) service.TaskService {
-	repo := repository.NewTaskRepository(db)
-	return service.NewTaskService(repo)
+	taskRepo := repository.NewTaskRepository(db)
+	templateRepo := repository.NewTemplateRepository(db)
+	return service.NewTaskService(taskRepo, templateRepo)
 }
 
 func TemplateService(db *gorm.DB) service.TemplateService {

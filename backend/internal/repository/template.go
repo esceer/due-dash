@@ -10,6 +10,7 @@ import (
 type TemplateRepository interface {
 	Create(*model.Template) error
 	GetAll() ([]*model.Template, error)
+	GetAllActive() ([]*model.Template, error)
 	GetById(int) (*model.Template, error)
 	Update(*model.Template) error
 	Delete(int) error
@@ -30,6 +31,14 @@ func (r *templateRepository) Create(b *model.Template) error {
 func (r *templateRepository) GetAll() ([]*model.Template, error) {
 	var templates []*model.Template
 	result := r.db.Find(&templates)
+	return templates, result.Error
+}
+
+func (r *templateRepository) GetAllActive() ([]*model.Template, error) {
+	var templates []*model.Template
+	result := r.db.
+		Find(&templates).
+		Where("enabled = ?", true)
 	return templates, result.Error
 }
 
